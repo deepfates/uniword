@@ -44,6 +44,7 @@ __      duh
 =       equals
 ==      dequals
 ===     threequals
+!=      nequals
 $       bling
 £       sterbling
 €       eurbling
