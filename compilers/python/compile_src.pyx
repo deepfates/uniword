@@ -1,4 +1,8 @@
+# compile.pyx
 import argparse
+from time import time
+cimport cython
+
 # Token Mapping
 TOKEN_MAP = {
     '.': 'DOT',
@@ -82,14 +86,15 @@ def generate_python_code(ast):
     return ' '.join(ast)
 
 # Main function
-def main():
+cpdef main():
+    start_time = time()
     
     parser = argparse.ArgumentParser(description='Uniword to Python compiler.')
-    parser.add_argument('input', help='The Uniword code to compile.')
+    parser.add_argument('input', type=argparse.FileType('r'), help='The Uniword code to compile.')
     parser.add_argument('-o', '--output', help='The output file. If not provided, the result will be printed to the console.')
     args = parser.parse_args()
 
-    uniword_code = args.input
+    uniword_code = args.input.read()
     tokens = tokenize(uniword_code)
     ast = parse(tokens)
     python_code = generate_python_code(ast)
@@ -99,7 +104,10 @@ def main():
             f.write(python_code)
     else:
         print(python_code)
+    end_time = time()
+    print(f"Compilation time: {(end_time - start_time) * 1000} ms")
 
+# Example usage: python compile.py input.uni -o output.py
 if __name__ == "__main__":
     main()
 
