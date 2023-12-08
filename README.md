@@ -20,8 +20,8 @@ Uniword. By Deep Corp™
 %       bunch
 '       quote
 "       twote
-_       uh
-__      duh
+_       under
+__      dunder
 &       and
 &&      dand
 ?       huh
