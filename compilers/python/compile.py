@@ -1,3 +1,4 @@
+import argparse
 # Token Mapping
 TOKEN_MAP = {
     '.': 'DOT',
@@ -46,7 +47,6 @@ TOKEN_MAP = {
     '=>': 'AWL',
     ':>': 'OWL',
     '?:': 'EL',
-    # Add more mappings as needed
 }
 
 # Tokenize the input string
@@ -65,15 +65,16 @@ def tokenize(input_string):
             i += 1  # Skip unknown characters
     return tokens
 
-# Parse tokens into an AST
 def parse(tokens):
     ast = []
+    operators = ['DOT', 'POW', 'BANG', 'EQUALS', 'AND', 'DAND', 'HUH', 'WHAH', 'PIPE', 'DRAIN', 'CREEK', 'SLAM', 'ZIG', 'ZAG', 'BOX', 'UNBOX', 'OPE', 'CLOPE', 'DASH', 'SPLASH', 'SMASH', 'SLASH', 'GASH', 'DEQUALS', 'THREEQUALS', 'NEQUALS', 'BLING', 'STERBLING', 'EURBLING', 'WAL', 'AWL', 'OWL', 'EL']
     for token in tokens:
-        if token in ['DOT', 'POW', 'BANG', 'EQUALS']:
-            # These are placeholders for demonstration
+        if token in operators:
+            # Convert the operator to lower case and append to the AST
             ast.append(token.lower())
         else:
-            ast.append('pass')  # Replace 'pass' with actual Python code as needed
+            # If the token is not an operator, append it as is
+            ast.append(token)
     return ast
 
 # Generate Python code from AST
@@ -82,11 +83,23 @@ def generate_python_code(ast):
 
 # Main function
 def main():
-    uniword_code = "Your Uniword code here"  # Replace with actual Uniword code
+    
+    parser = argparse.ArgumentParser(description='Uniword to Python compiler.')
+    parser.add_argument('input', help='The Uniword code to compile.')
+    parser.add_argument('-o', '--output', help='The output file. If not provided, the result will be printed to the console.')
+    args = parser.parse_args()
+
+    uniword_code = args.input
     tokens = tokenize(uniword_code)
     ast = parse(tokens)
     python_code = generate_python_code(ast)
-    print(python_code)
+
+    if args.output:
+        with open(args.output, 'w') as f:
+            f.write(python_code)
+    else:
+        print(python_code)
 
 if __name__ == "__main__":
     main()
+
